@@ -3,4 +3,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  # API
+  # (data input)
+  post 'api/v1/ticket_data', to: 'api/v1/ticket_data#input'
 end
