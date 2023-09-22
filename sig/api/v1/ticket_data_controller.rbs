@@ -1,0 +1,13 @@
+module Api
+  module V1
+    class TicketDataController
+      def build_excavator_address: (Object) -> String
+
+      def input: -> void
+
+      def validate_well_known_text: (String) -> Hash[Symbol, bool|String]
+
+      def well_known_text_to_polygon: (String) -> String
+    end
+  end
+end
