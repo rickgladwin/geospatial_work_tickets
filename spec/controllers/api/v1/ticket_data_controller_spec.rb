@@ -15,6 +15,24 @@ describe Api::V1::TicketDataController, "#validate_well_known_text" do
     expect(result[:status]).to eq false
   end
 
+  it "invalidates well_known_text with extra leading spaces" do
+    test_value = 'POLYGON(( 56.23 -123.456,58.835 -123.987,55.2 -125.67))'
+    result = ticket_data_controller.validate_well_known_text(test_value)
+    expect(result[:status]).to eq false
+  end
+
+  it "invalidates well_known_text with extra trailing spaces" do
+    test_value = 'POLYGON((56.23 -123.456,58.835 -123.987,55.2 -125.67 ))'
+    result = ticket_data_controller.validate_well_known_text(test_value)
+    expect(result[:status]).to eq false
+  end
+
+  it "invalidates well_known_text with spaces after commas" do
+    test_value = 'POLYGON((56.23 -123.456, 58.835 -123.987, 55.2 -125.67))'
+    result = ticket_data_controller.validate_well_known_text(test_value)
+    expect(result[:status]).to eq false
+  end
+
   it "validates well_known_text" do
     test_value = 'POLYGON((56.23 -123.456,58.835 -123.987,55.2 -125.67))'
     result = ticket_data_controller.validate_well_known_text(test_value)
