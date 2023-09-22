@@ -1,0 +1,2 @@
+class MissesController < ApplicationController
+end

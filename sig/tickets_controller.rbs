@@ -1,0 +1,9 @@
+class TicketsController
+  @ticket: untyped
+
+  @tickets: untyped
+
+  def index: -> void
+
+  def show: -> void
+end

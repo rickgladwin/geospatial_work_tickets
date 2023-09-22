@@ -11,4 +11,8 @@ Rails.application.routes.draw do
       post 'ticket_data', to: 'ticket_data#input'
     end
   end
+
+  # Models
+  get '/tickets', to: 'tickets#index'
+  get '/tickets/:id', to: 'tickets#show', as: 'ticket'
 end

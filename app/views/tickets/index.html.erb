@@ -1,0 +1,31 @@
+<h1>Tickets</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Request Number</th>
+    <th>Response Due Datetime</th>
+    <th>Primary Service Area Code</th>
+    <th colspan="1"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @tickets.each do |ticket| %>
+    <tr>
+      <td><%= ticket.id %></td>
+      <td><%= ticket.request_number %></td>
+      <td><%= ticket.response_due_date_time %></td>
+      <td><%= ticket.primary_service_area_code %></td>
+      <td><%= link_to "Show", ticket_path(ticket) %></td>
+<!--      <td><%#= link_to "Edit", edit_ticket_path(ticket) %></td>-->
+<!--      <td><%#= link_to "Destroy", ticket, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>-->
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%#= link_to "New ticket", new_ticket_path %>
