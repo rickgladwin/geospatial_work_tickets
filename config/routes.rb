@@ -6,5 +6,9 @@ Rails.application.routes.draw do
 
   # API
   # (data input)
-  post 'api/v1/ticket_data', to: 'api/v1/ticket_data#input'
+  namespace :api do
+    namespace :v1 do
+      post 'ticket_data', to: 'ticket_data#input'
+    end
+  end
 end
