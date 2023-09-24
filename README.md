@@ -32,6 +32,11 @@ locations, start commands, etc.
     * `pg_ctl -D /usr/local/var/postgres status`
   * create the Rails databases: `rails db:create`
 
+## Build
+If you need to modify the styles governed by tailwind, run `./bin/dev` to regenerate the stylesheets.
+
+This will also start the rails server with a watcher to check for modified views, layouts, etc.
+
 ## Run
 * from the command line:
   * `rails server`
