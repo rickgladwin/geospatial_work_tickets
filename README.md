@@ -20,10 +20,10 @@
 * from the command line:
   * ensure PostgreSQL is installed locally:
     * `postgres --version`
-    * If not, install it
+    * If not, install it (e.g. with Homebrew `brew install postgresql@14`)
   * if PostgreSQL is installed using Homebrew, run this command to see the installation
 locations, start commands, etc.
-    * `brew info postgresql`
+    * `brew info postgresql` or `brew info postgresql@14`
   * use the start command from the output of `brew info...`, e.g.
     * `brew services start postgresql@14`
   * OR start postgresql manually:
@@ -31,6 +31,7 @@ locations, start commands, etc.
   * ensure postgres is running:
     * `pg_ctl -D /usr/local/var/postgres status`
   * create the Rails databases: `rails db:create`
+  * run any pending migrations: `rails db:migrate`
 
 ## Build
 If you need to modify the styles governed by tailwind, run `./bin/dev` to regenerate the stylesheets.
