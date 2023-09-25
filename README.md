@@ -1,9 +1,19 @@
 # Work Ticket Tracker with Geospatial Display
 
 ## Description
-* receives HTTP POST requests with ticket data
-* stores ticket data in database
-* displays ticket details and map data
+This system receives, stores, and displays information about physical work projects
+like road work or municipal work involving excavation.
+
+A Ticket is the primary record, holding information about the work request, the
+Excavators doing the work, and address and geospatial data about the work location.
+
+An Excavator is a record belonging to the ticket, holding information about the company
+and work crew doing the work.
+
+The system:
+* receives HTTP POST requests with Ticket and Excavator data
+* stores Ticket and Excavator data in a database
+* displays Ticket details and map data
 
 ## Requirements
 * Ruby 3.2.2
@@ -44,7 +54,25 @@ This will also start the rails server with a watcher to check for modified views
   * In a browser, visit the URL output by the `rails server` command (e.g. "Listening on http://127.0.0.1:3000")
 
 ## Test
-
+### Unit tests
+* from the command line (or IDE):
+  * `bundle exec rspec -f documentation` (run all specs with documentation format)
 
 ## Notes
 
+
+## Things I would change
+* Ideally I would build any new app that would be used by multiple parties or
+stay active for any period of time in a Docker container, for better version
+management and portability. But this is a small, temporary app.
+* The API currently has no authorization built in. As this is simply an exercise to
+be viewed by a restricted list of people, an API without auth is acceptable, but
+in any production environment, given the API endpoint's ability to affect the state
+of the system, the POST ticket_data endpoint should use an API key and/or other
+auth methods.
+* The project includes .rbs files (type declarations) for some classes and methods,
+but not all. In a long-term/production environment, type declarations can help prevent
+errors at development time, make function and class definitions more precise and
+obvious for developers, and can improve performance at runtime (especially since Ruby
+3.1.0 onward includes a JIT compiler – compiling and memory management are typically
+aided by type declarations)
