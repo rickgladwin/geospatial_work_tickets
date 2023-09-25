@@ -1,30 +1,36 @@
-<h1>Tickets</h1>
+<div class="container w-full">
+  <h1>Tickets</h1>
+</div>
 
-<table class="table-auto">
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Request Number</th>
-    <th>Response Due Datetime</th>
-    <th>Primary Service Area Code</th>
-    <th colspan="1"></th>
-  </tr>
-  </thead>
+<div class="container">
 
-  <tbody>
-  <% @tickets.each do |ticket| %>
+  <table class="table-auto border-spacing-[35px]">
+    <thead>
     <tr>
-      <td><%= ticket.id %></td>
-      <td><%= ticket.request_number %></td>
-      <td><%= ticket.response_due_date_time %></td>
-      <td><%= ticket.primary_service_area_code %></td>
-      <td><%= link_to "Show", ticket_path(ticket) %></td>
-<!--      <td><%#= link_to "Edit", edit_ticket_path(ticket) %></td>-->
-<!--      <td><%#= link_to "Destroy", ticket, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>-->
+      <th>ID</th>
+      <th>Request Number</th>
+      <th>Response Due Datetime</th>
+      <th>Primary Service<br>Area Code</th>
+      <th colspan="1"></th>
     </tr>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+    <% @tickets.each do |ticket| %>
+      <tr>
+        <td><%= ticket.id %></td>
+        <td><%= ticket.request_number %></td>
+        <td><%= ticket.response_due_date_time %></td>
+        <td class="text-center"><%= ticket.primary_service_area_code %></td>
+        <td><%= link_to "Show", ticket_path(ticket) %></td>
+        <!--      <td><%#= link_to "Edit", edit_ticket_path(ticket) %></td>-->
+        <!--      <td><%#= link_to "Destroy", ticket, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></td>-->
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
 
 <br>
 

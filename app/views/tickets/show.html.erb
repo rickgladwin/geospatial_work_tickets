@@ -1,6 +1,42 @@
+<p><%= link_to "<< Back to Ticket listing", tickets_path %></p>
 <h1>Ticket <%= @ticket.id %></h1>
 
+<table>
+  <tr>
+    <td>Request Number:</td>
+    <td><%= @ticket.request_number %></td>
+  </tr>
+  <tr>
+    <td>Sequence Number:</td>
+    <td><%= @ticket.sequence_number %></td>
+  </tr>
+  <tr>
+    <td>Request Type:</td>
+    <td><%= @ticket.request_type %></td>
+  </tr>
+  <tr>
+    <td>Request Action:</td>
+    <td><%= @ticket.request_action %></td>
+  </tr>
+  <tr>
+    <td>Response Due DateTime:</td>
+    <td><%= @ticket.response_due_date_time %></td>
+  </tr>
+  <tr>
+    <td>Primary Service Area Code:</td>
+    <td><%= @ticket.primary_service_area_code %></td>
+  </tr>
+  <tr>
+    <td>Additional Service Area Codes:</td>
+    <td><%= @ticket.additional_service_area_codes.join(', ') %></td>
+  </tr>
+</table>
 
+<div class="ticket-map">
+  <script>
+
+  </script>
+</div>
 <br>
 
 <%#= link_to "New ticket", new_ticket_path %>
