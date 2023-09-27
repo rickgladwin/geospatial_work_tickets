@@ -76,3 +76,12 @@ errors at development time, make function and class definitions more precise and
 obvious for developers, and can improve performance at runtime (especially since Ruby
 3.1.0 onward includes a JIT compiler – compiling and memory management are typically
 aided by type declarations)
+* There is very little validation and differential handling for cases where the json
+data is invalid or incomplete. These cases could be handled in a way that still allows
+the UI to load, for example:
+  * If there are no `ticket.digsite_info` coordinates, generate and display the Google
+map using the `ticket.primary_service_area_code` and a default zoom level
+  * If there's not enough useful information to generate the Google map, don't display one
+* Make the column display on the `Tickets` index table dynamic, showing more or fewer
+columns depending on the viewport size, prioritizing the "Show" link and other key details
+* add more test cases and additional test scopes
