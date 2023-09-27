@@ -2,15 +2,17 @@
 
 class Api::V1::TicketDataController < ApplicationController
   # disable CSRF protection (use API token in production)
+  # TODO: set up API token for incoming request authentication
   protect_from_forgery with: :null_session
 
   def input
     # parse input json
     input_json = JSON.parse(request.raw_post)
-    # render inline: input_json['ExcavationInfo']['DigsiteInfo']['WellKnownText']
 
     # validate input data
+
     # create Ticket and Excavator from input data
+    # begin
     new_ticket = Ticket.create(
       request_number:                input_json['RequestNumber'],
       sequence_number:               input_json['SequenceNumber'],
@@ -21,8 +23,26 @@ class Api::V1::TicketDataController < ApplicationController
       additional_service_area_codes: input_json['ServiceArea']['AdditionalServiceAreaCodes']['SACode'],
       digsite_info: well_known_text_to_polygon(input_json['ExcavationInfo']['DigsiteInfo']['WellKnownText']),
     )
-    # render inline: "new Ticket created: #{new_ticket.to_json}", status: 201
 
+    unless new_ticket.valid?
+      render plain: "Could not create Ticket from input data. errors: #{new_ticket.errors.to_a}", status: 400
+      return
+    end
+
+    # return head(status: 400) unless new_ticket.valid?
+
+    # unless new_ticket.valid?
+    #   render json: {status: "error", code: 400, message: "missing stuff"} unless new_ticket.valid?
+    #   return
+    # end
+
+    # return
+#     rescue Error => e
+#       puts "could not create Ticket from input data: #{e}"
+#       render inline: "could not create Ticket from input data: #{e}", status: 400
+#     end
+
+    # begin
     new_excavator = Excavator.create(
       company_name: input_json['Excavator']['CompanyName'],
       address: build_excavator_address(input_json),
@@ -30,7 +50,12 @@ class Api::V1::TicketDataController < ApplicationController
       ticket_id: new_ticket.id
     )
 
-    render inline: "new Ticket and Excavator created: #{new_ticket.to_json}, #{new_excavator.to_json}", status: 201
+    unless new_excavator.valid?
+      render plain: "created new Ticket, but could not create Excavator from input data. errors: #{new_excavator.errors.to_a}", status: 207
+      return
+    end
+
+    render plain: "new Ticket and Excavator created: #{new_ticket.to_json}, #{new_excavator.to_json}", status: 201
   end
 
   # converts value format from json data to PostgreSQL polygon format

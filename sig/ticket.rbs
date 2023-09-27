@@ -1,0 +1,5 @@
+class Ticket
+  private
+
+  def response_due_date_time_format: -> void
+end
