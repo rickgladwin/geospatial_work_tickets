@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-describe Api::V1::TicketDataController, "#validate_well_known_text" do
+describe Api::V1::TicketDataController do
   ticket_data_controller = Api::V1::TicketDataController.new
 
   describe "validate_well_known_text" do

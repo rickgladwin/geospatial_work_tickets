@@ -1,9 +1,20 @@
 class TicketsController
-  @ticket: untyped
+  @polygon_center: Hash[Symbol, Float]
+  @static_map_image: untyped
+  @ticket: Object
+  @tickets: Object
 
-  @tickets: untyped
+  def center_of_polygon: (Array[Object]) -> Hash[Symbol, Float]
 
   def index: -> void
 
+  def polygon_string_to_array: (String)-> Array[Hash[Symbol, Float]]
+
+  def polygon_string_to_google_maps_path: (String) -> String
+
   def show: -> void
+
+  def static_google_map: (Array[Object])-> String
+
+  def static_google_map_with_polygon: (String)-> String
 end

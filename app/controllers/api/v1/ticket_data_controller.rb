@@ -63,9 +63,9 @@ class Api::V1::TicketDataController < ApplicationController
   def validate_well_known_text(well_known_text)
     value_regex = /POLYGON\(\((-?\d{1,2}(\.\d+)? -?\d{1,3}(\.\d+)?)(,-?\d{1,2}(\.\d+)? -?\d{1,3}(\.\d+)?){2,}\)\)/
     if value_regex.match(well_known_text)
-      return { :status => true, :message => '' }
+      { :status => true, :message => '' }
     else
-      return { :status => false, :message => "well_known_text value does not match regex pattern (minimum 3 lat/long pairs, no padding spaces) #{value_regex}"}
+      { :status => false, :message => "well_known_text value does not match regex pattern (minimum 3 lat/long pairs, no padding spaces) #{value_regex}"}
     end
   end
 

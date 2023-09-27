@@ -32,10 +32,16 @@
   </tr>
 </table>
 
-<div class="ticket-map">
-  <script>
+<div class="ticket-map my-5">
+<!--  <p>using static map uri:</p>-->
+<!--  <p><%#= @static_map_uri %></p>-->
+<!--  <p>and maps_api_key:</p>-->
+<!--  <p><%#= @maps_api_key %></p>-->
+  <img src="data:image/png;base64, <%= Base64.strict_encode64(@response_body) %>">
+  <%#= @response_body %>
+<!--  <script>-->
 
-  </script>
+<!--  </script>-->
 </div>
 <br>
 
