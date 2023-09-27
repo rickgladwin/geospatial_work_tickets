@@ -32,17 +32,32 @@
   </tr>
 </table>
 
-<div class="ticket-map my-5">
-<!--  <p>using static map uri:</p>-->
-<!--  <p><%#= @static_map_uri %></p>-->
-<!--  <p>and maps_api_key:</p>-->
-<!--  <p><%#= @maps_api_key %></p>-->
-  <img src="data:image/png;base64, <%= Base64.strict_encode64(@response_body) %>">
-  <%#= @response_body %>
-<!--  <script>-->
+<h2><%= "Excavator".pluralize(@excavators.count) %>:</h2>
 
-<!--  </script>-->
+<% @excavators.each do |excavator| %>
+  <table>
+    <tr>
+      <td>ID:</td>
+      <td><%= excavator.id %></td>
+    </tr>
+    <tr>
+      <td>Company Name:</td>
+      <td><%= excavator.company_name %></td>
+    </tr>
+    <tr>
+      <td>Address:</td>
+      <td><%= excavator.address %></td>
+    </tr>
+    <tr>
+      <td>Crew on site?</td>
+      <td><%= excavator.crew_on_site %></td>
+    </tr>
+  </table>
+  <br>
+<% end %>
+<div class="ticket-map my-5">
+  <% if @map_image != nil %>
+    <img src="data:image/png;base64, <%= Base64.strict_encode64(@map_image) %>">
+  <% end %>
 </div>
 <br>
-
-<%#= link_to "New ticket", new_ticket_path %>

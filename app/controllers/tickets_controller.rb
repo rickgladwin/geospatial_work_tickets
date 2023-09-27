@@ -8,32 +8,23 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
-    puts "$$$$$$$$$$$$ #{@ticket.digsite_info}"
-    @polygon_center = center_of_polygon(polygon_string_to_array(@ticket.digsite_info))
-    puts "polygon_center: #{@polygon_center}"
-    # maps_api_key = Rails.application.credentials.google_maps_api_key
-    # maps_api_key = "#{Rails.application.credentials.google_maps_api_key}"
-    maps_api_key = Rails.application.credentials.google_maps_api_key
-    @maps_api_key = maps_api_key
+    @excavators = @ticket.excavator
 
-    puts "api key: #{maps_api_key}"
-    # static_map_uri = URI(static_google_map(polygon_string_to_array(@ticket.digsite_info)))
-    static_map_uri = URI(static_google_map_with_polygon(@ticket.digsite_info))
+    @map_image = nil
 
-    # https_connection = Net::HTTP.new(static_map_uri.host, static_map_uri.port)
+    if @ticket.digsite_info
+      static_map_uri = URI(static_google_map_with_polygon(@ticket.digsite_info))
 
-    http = Net::HTTP.new(static_map_uri.host, static_map_uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      http = Net::HTTP.new(static_map_uri.host, static_map_uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-    @static_map_uri = static_map_uri
-
-    request = Net::HTTP::Get.new(static_map_uri)
-    request["x-api-key"] = Rails.application.credentials.google_maps_api_key
-    request["cache-control"] = 'no-cache'
-    response = http.request(request)
-    @response_body = response.read_body
-
+      request = Net::HTTP::Get.new(static_map_uri)
+      request["x-api-key"] = Rails.application.credentials.google_maps_api_key
+      request["cache-control"] = 'no-cache'
+      response = http.request(request)
+      @map_image = response.read_body
+    end
   end
 
   def polygon_string_to_array(polygon_coords)
@@ -103,34 +94,21 @@ class TicketsController < ApplicationController
     lon_delta = longitudes.max - longitudes.min
     max_delta = [lat_delta, lon_delta].max
 
-    puts "max_delta: #{max_delta}"
-
     # Google Maps zoom range: 0..15 or 21 or 23, depending on the map
     # Set the zoom value as a function of the largest dimension (lat or long)
     # of the polygon
-    # TODO: tweak the zoom_coefficient to encompass the entire polygon plus a buffer
-    zoom_coefficient = 100
+    zoom_coefficient = 150
     zoom = (max_delta * zoom_coefficient).round(0)
-
-    puts "zoom: #{zoom}"
 
     # map_center = "Brooklyn+Bridge,New+York,NY"
     coordinates_center = center_of_polygon(coordinates)
     map_center = "#{coordinates_center[:lat]},#{coordinates_center[:lon]}"
-    puts "map_center: #{map_center}"
 
-    # "https://maps.googleapis.com/maps/api/staticmap?center=#{map_center}&size=500x500&zoom=17&key=#{Rails.application.credentials.google_maps_api_key}"
-    # https://maps.googleapis.com/maps/api/staticmap?center=43.6567332,-79.381446&size=500x500&zoom=15&key=AIzaSyAYlNyJl_FswjxVX8vO5PPESzmcf4fNSRU
-    # "https://maps.googleapis.com/maps/api/staticmap?center=#{map_center}&size=500x500&zoom=17&key=AIzaSyAYlNyJl_FswjxVX8vO5PPESzmcf4fNSRU"
-    # "https://maps.googleapis.com/maps/api/staticmap?center=#{map_center}&size=500x500&zoom=#{zoom}&key=AIzaSyAYlNyJl_FswjxVX8vO5PPESzmcf4fNSRU"
-    # "https://maps.googleapis.com/maps/api/staticmap?center=#{map_center}&size=500x500&zoom=#{zoom}&key=#{Rails.application.credentials.google_maps_api_key}"
     "https://maps.googleapis.com/maps/api/staticmap?center=#{map_center}&size=500x500&zoom=#{zoom}&key=#{Rails.application.credentials.google_maps_api_key}"
   end
 
   def static_google_map_with_polygon(polygon_string)
     path_string = "color:0x0000ff|fillcolor:0x12342f|weight:5#{polygon_string_to_google_maps_path(polygon_string)}"
-    # path_string = "color:0x0000ff|fillcolor:0x12342f|weight:5|40.737102,-73.990318|40.749825,-74.987963|40.752946,-73.987384|40.255823,-73.986397"
-    # "https://maps.googleapis.com/maps/api/staticmap?center=#{map_center}&size=500x500&zoom=#{zoom}&key=#{Rails.application.credentials.google_maps_api_key}"
     "https://maps.googleapis.com/maps/api/staticmap?&size=500x500&path=#{path_string}&key=#{Rails.application.credentials.google_maps_api_key}"
   end
 end

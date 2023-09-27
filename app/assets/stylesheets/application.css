@@ -20,6 +20,12 @@ h1 {
     padding: 1em 0 2em 0;
 }
 
+h2 {
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 1em 0 1em 0;
+}
+
 th, td {
     border-bottom: 1px solid grey;
 }

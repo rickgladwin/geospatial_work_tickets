@@ -1,6 +1,6 @@
 class TicketsController
-  @polygon_center: Hash[Symbol, Float]
-  @static_map_image: untyped
+  @excavators: Array[Object]
+  @map_image: String
   @ticket: Object
   @tickets: Object
 
