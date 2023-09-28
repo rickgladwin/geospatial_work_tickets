@@ -1,5 +1,5 @@
 class TicketsController
-  @excavators: Array[Object]
+  @excavator: Object
   @map_image: String
   @ticket: Object
   @tickets: Object

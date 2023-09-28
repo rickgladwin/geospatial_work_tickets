@@ -32,34 +32,35 @@
   </tr>
 </table>
 
-<h2><%= "Excavator".pluralize(@excavators.count) %>:</h2>
+<!--<h2><%#= "Excavator".pluralize(@excavators.count) %>:</h2>-->
+<h2>Excavator:</h2>
 
-<% if @excavators.count == 0 %>
-  <p>(No Excavators found for this ticket)</p>
-<% else %>
+<%# if @excavators.count == 0 %>
+<!--  <p>(No Excavators found for this ticket)</p>-->
+<%# else %>
 
-  <% @excavators.each do |excavator| %>
+  <%# @excavators.each do |excavator| %>
     <table>
       <tr>
         <td>ID:</td>
-        <td><%= excavator.id %></td>
+        <td><%= @excavator.id %></td>
       </tr>
       <tr>
         <td>Company Name:</td>
-        <td><%= excavator.company_name %></td>
+        <td><%= @excavator.company_name %></td>
       </tr>
       <tr>
         <td>Address:</td>
-        <td><%= excavator.address %></td>
+        <td><%= @excavator.address %></td>
       </tr>
       <tr>
         <td>Crew on site?</td>
-        <td><%= excavator.crew_on_site %></td>
+        <td><%= @excavator.crew_on_site %></td>
       </tr>
     </table>
     <br>
-  <% end %>
-<% end %>
+  <%# end %>
+<%# end %>
 
 <div class="ticket-map my-5">
   <% if @map_image != nil %>

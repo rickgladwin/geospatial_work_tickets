@@ -8,7 +8,7 @@ class TicketsController < ApplicationController
 
   def show
     @ticket = Ticket.find(params[:id])
-    @excavators = @ticket.excavator
+    @excavator = @ticket.excavator
 
     @map_image = nil
 
