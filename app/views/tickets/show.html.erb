@@ -32,14 +32,9 @@
   </tr>
 </table>
 
-<!--<h2><%#= "Excavator".pluralize(@excavators.count) %>:</h2>-->
 <h2>Excavator:</h2>
 
-<%# if @excavators.count == 0 %>
-<!--  <p>(No Excavators found for this ticket)</p>-->
-<%# else %>
 
-  <%# @excavators.each do |excavator| %>
     <table>
       <tr>
         <td>ID:</td>
@@ -59,8 +54,6 @@
       </tr>
     </table>
     <br>
-  <%# end %>
-<%# end %>
 
 <div class="ticket-map my-5">
   <% if @map_image != nil %>

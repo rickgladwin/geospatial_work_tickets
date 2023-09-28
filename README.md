@@ -87,4 +87,8 @@ map using the `ticket.primary_service_area_code` and a default zoom level
   * If there's not enough useful information to generate the Google map, don't display one
 * Make the column display on the `Tickets` index table dynamic, showing more or fewer
 columns depending on the viewport size, prioritizing the "Show" link and other key details
-* add more test cases and additional test scopes
+* Add more test cases and additional test scopes
+* If the address information for the Excavator is important, or will be used as input
+data for other functions (e.g. for generating map data or geospatial coordinates),
+I would add more validation for the address information itself, like confirming that
+the zip code is valid and matches the address, the city matches the state, etc.
