@@ -2,7 +2,7 @@ class Ticket < ApplicationRecord
   validates :request_number, :sequence_number, :request_type, :request_action, :primary_service_area_code, presence: true
   validate :response_due_date_time_format
 
-  has_one :excavator
+  has_one :excavator, dependent: :destroy
 
 private
 
