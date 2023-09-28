@@ -5,6 +5,8 @@ module Api
 
       def input: -> void
 
+      def validate_excavator_address: (String) -> Hash[Symbol, bool|String]
+
       def validate_well_known_text: (String) -> Hash[Symbol, bool|String]
 
       def well_known_text_to_polygon: (String) -> String

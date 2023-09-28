@@ -9,10 +9,14 @@ class Api::V1::TicketDataController < ApplicationController
     # parse input json
     input_json = JSON.parse(request.raw_post)
 
-    # validate input data
+    # validate well_known_text
+    polygon_validation = validate_well_known_text(input_json['ExcavationInfo']['DigsiteInfo']['WellKnownText'])
+    if polygon_validation[:status]== false
+      render plain: "Could not create Excavator from input data: #{polygon_validation[:message]}", status: 400
+      return
+    end
 
     # create Ticket and Excavator from input data
-    # begin
     new_ticket = Ticket.create(
       request_number:                input_json['RequestNumber'],
       sequence_number:               input_json['SequenceNumber'],
@@ -29,20 +33,14 @@ class Api::V1::TicketDataController < ApplicationController
       return
     end
 
-    # return head(status: 400) unless new_ticket.valid?
+    # validate excavator address data
+    address_validation = validate_excavator_address(input_json)
+    if address_validation[:status]== false
+      new_ticket.destroy
+      render plain: "Could not create Excavator from input data: #{address_validation[:message]}", status: 400
+      return
+    end
 
-    # unless new_ticket.valid?
-    #   render json: {status: "error", code: 400, message: "missing stuff"} unless new_ticket.valid?
-    #   return
-    # end
-
-    # return
-#     rescue Error => e
-#       puts "could not create Ticket from input data: #{e}"
-#       render inline: "could not create Ticket from input data: #{e}", status: 400
-#     end
-
-    # begin
     new_excavator = Excavator.create(
       company_name: input_json['Excavator']['CompanyName'],
       address: build_excavator_address(input_json),
@@ -51,11 +49,12 @@ class Api::V1::TicketDataController < ApplicationController
     )
 
     unless new_excavator.valid?
-      render plain: "created new Ticket, but could not create Excavator from input data. errors: #{new_excavator.errors.to_a}", status: 207
+      new_ticket.destroy
+      render plain: "Could not create Excavator from input data. errors: #{new_excavator.errors.to_a}", status: 400
       return
     end
 
-    render plain: "new Ticket and Excavator created: #{new_ticket.to_json}, #{new_excavator.to_json}", status: 201
+    render plain: "New Ticket and Excavator created:\n#{new_ticket.to_json}\n\n#{new_excavator.to_json}", status: 201
   end
 
   # converts value format from json data to PostgreSQL polygon format
@@ -64,12 +63,6 @@ class Api::V1::TicketDataController < ApplicationController
   # example output:
   # ( ( x1 , y1 ) , ... , ( xn , yn ) )
   def well_known_text_to_polygon(well_known_text)
-    # validate format
-    validation_result = validate_well_known_text(well_known_text)
-    if validation_result[:status] == false
-      raise "well_known_text validation for #{well_known_text} failed: #{validation_result[:message]}"
-    end
-
     coordinates = '('
 
     # parse value
@@ -99,5 +92,16 @@ class Api::V1::TicketDataController < ApplicationController
       "#{input_json['Excavator']['City']}, "+
       "#{input_json['Excavator']['State']}, "+
       "#{input_json['Excavator']['Zip']}"
+  end
+
+  def validate_excavator_address(input_json)
+    required_keys = %w[Address City State Zip]
+    return { :status => false, :message => "input_json is missing key 'Excavator'"} unless input_json.key?('Excavator')
+    return { :status => false, :message => "input_json['Excavator'] is not a key-value object"} unless input_json['Excavator'].respond_to?('key')
+    required_keys.each do |key|
+      return { :status => false, :message => "input_json is missing Excavator.#{key}" } unless input_json['Excavator'].key?(key)
+      return { :status => false, :message => "input_json has blank Excavator.#{key}" } if input_json['Excavator'][key].empty?
+    end
+    { :status => true, :message => '' }
   end
 end

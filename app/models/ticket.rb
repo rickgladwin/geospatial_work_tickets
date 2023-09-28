@@ -11,7 +11,7 @@ private
     begin
       response_due_date_time.to_datetime
     rescue NoMethodError
-      errors.add(:response_due_date_time, "must be a date-formatted string.")
+      errors.add(:response_due_date_time, "must be a date-formatted string (YYYY/MM/DD HH:mm:ss).")
     rescue Date::Error => e
       errors.add(:response_due_date_time, "cannot convert input data to datetime. Format should be: 'YYYY/MM/DD HH:mm:ss'. #{e} ")
     end
