@@ -3,6 +3,8 @@
 class Api::V1::TicketDataController < ApplicationController
   # disable CSRF protection (use API token in production)
   # TODO: set up API token for incoming request authentication
+  # TODO: add API tests for this endpoint
+  # TODO: add end-to-end tests for UI requirements
   protect_from_forgery with: :null_session
 
   def input
