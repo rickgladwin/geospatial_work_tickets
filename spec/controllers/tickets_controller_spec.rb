@@ -65,7 +65,7 @@ describe TicketsController do
         lon: (lon_1 + lon_2 + lon_3) / 3,
       }
       result          = tickets_controller.center_of_polygon(test_input)
-      puts "polygon center: #{result}"
+      # puts "polygon center: #{result}"
       expect(result).to eq expected_result
     end
   end
@@ -120,7 +120,7 @@ describe TicketsController do
       ]
 
       result = tickets_controller.static_google_map(test_coords)
-      puts result
+      # puts result
       expect(result).to be_a String
       expect(result[0..7]).to eq 'https://'
     end

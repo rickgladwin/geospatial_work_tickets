@@ -1,6 +1,6 @@
 class TicketsController
   @excavator: Object
-  @map_image: String
+  @map_image: String | nil
   @ticket: Object
   @tickets: Object
 
