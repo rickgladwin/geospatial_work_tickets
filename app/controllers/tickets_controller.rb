@@ -14,16 +14,17 @@ class TicketsController < ApplicationController
 
     if @ticket.digsite_info
       static_map_uri = URI(static_google_map_with_polygon(@ticket.digsite_info))
+      unless static_map_uri.host.nil?
+        http = Net::HTTP.new(static_map_uri.host, static_map_uri.port)
+        http.use_ssl = true
+        http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-      http = Net::HTTP.new(static_map_uri.host, static_map_uri.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
-      request = Net::HTTP::Get.new(static_map_uri)
-      request["x-api-key"] = Rails.application.credentials.google_maps_api_key
-      request["cache-control"] = 'no-cache'
-      response = http.request(request)
-      @map_image = response.read_body
+        request = Net::HTTP::Get.new(static_map_uri)
+        request["x-api-key"] = Rails.application.credentials.google_maps_api_key
+        request["cache-control"] = 'no-cache'
+        response = http.request(request)
+        @map_image = response.read_body
+      end
     end
   end
 
@@ -100,7 +101,6 @@ class TicketsController < ApplicationController
     zoom_coefficient = 150
     zoom = (max_delta * zoom_coefficient).round(0)
 
-    # map_center = "Brooklyn+Bridge,New+York,NY"
     coordinates_center = center_of_polygon(coordinates)
     map_center = "#{coordinates_center[:lat]},#{coordinates_center[:lon]}"
 
