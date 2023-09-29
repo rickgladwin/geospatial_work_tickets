@@ -14,7 +14,7 @@ class Api::V1::TicketDataController < ApplicationController
     # validate well_known_text
     polygon_validation = validate_well_known_text(input_json['ExcavationInfo']['DigsiteInfo']['WellKnownText'])
     if polygon_validation[:status]== false
-      render plain: "Could not create Excavator from input data: #{polygon_validation[:message]}", status: 400
+      render plain: "Could not create Ticket from input data: #{polygon_validation[:message]}", status: 400
       return
     end
 
