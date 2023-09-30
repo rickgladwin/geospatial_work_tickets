@@ -59,10 +59,12 @@ This will also start the rails server with a watcher to check for modified views
   * `bundle exec rspec -f documentation` (run all specs with documentation format)
 
 ## Notes
-* Relationship between Ticket and Excavator has been set up as "Ticket has many Excavators",
-rather than "Ticket has one Excavator", since:
-  * The "belongs to" (foreign key) relationship between Excavator and Ticket loses nothing
-by having the Ticket set up as "has many" instead of "has one"
+* Basic API documentation has been set up based on OpenAPI v3 using swagger. The docs can be
+accessed in a browser at `<site url>/api-docs`
+* Relationship between Ticket and Excavator has been set up as "Ticket has one Excavator",
+rather than "Ticket has many Excavators". If the business logic reflected in the system were
+modified such that multiple Excavators were assigned to work on the same work ticket, the
+relationship could be modified to be "one to many".
 
 ## Things I would change
 * Ideally I would build any new app that would be used by multiple parties or
