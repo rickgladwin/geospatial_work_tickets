@@ -57,6 +57,9 @@ This will also start the rails server with a watcher to check for modified views
 ### Unit tests
 * from the command line (or IDE):
   * `bundle exec rspec -f documentation` (run all specs with documentation format)
+### Manual API tests
+* example json data for API tests can be found in `/test/example_data`
+* [Postman API Platform](https://www.postman.com/) is an excellent tool for manual API testing
 
 ## Notes
 * Basic API documentation has been set up based on OpenAPI v3 using swagger. The docs can be
